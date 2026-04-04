@@ -1,0 +1,10 @@
+2024-01-15 11:05:10 INFO  Running git pull origin main
+2024-01-15 11:05:11 ERROR fatal: unable to access 'https://github.com/user/repo.git/': Could not resolve host: github.com
+2024-01-15 11:05:11 ERROR error: failed to push some refs to 'origin'
+2024-01-15 11:05:12 WARN  hint: Updates were rejected because the remote contains work that you do not have locally.
+2024-01-15 11:05:12 ERROR CONFLICT (content): Merge conflict in src/main.py
+2024-01-15 11:05:12 ERROR CONFLICT (content): Merge conflict in requirements.txt
+2024-01-15 11:05:13 ERROR Automatic merge failed; fix conflicts and then commit the result.
+2024-01-15 11:05:14 WARN  hint: Resolve all conflicts manually, mark them as resolved with
+2024-01-15 11:05:14 WARN  hint: "git add <conflicted_files>", then run "git commit"
+2024-01-15 11:05:15 ERROR fatal: You are in the middle of a merge -- cannot amend.

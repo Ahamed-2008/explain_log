@@ -1,0 +1,11 @@
+2024-01-15 14:32:01 INFO  System monitor started
+2024-01-15 14:32:05 WARN  Disk usage at 85% on /dev/sda1
+2024-01-15 14:32:10 ERROR No space left on device
+2024-01-15 14:32:10 ERROR Failed to write to /var/log/app.log: [Errno 28] No space left on device
+2024-01-15 14:32:11 ERROR Permission denied: unable to access '/etc/secrets/api_key'
+2024-01-15 14:32:12 WARN  Memory usage at 92% - system is under heavy load
+2024-01-15 14:32:15 ERROR Out of memory: Kill process 3821 (python) score 902 or sacrifice child
+2024-01-15 14:32:15 ERROR Process 3821 (python) killed due to out of memory
+2024-01-15 14:32:20 ERROR Failed to start service: webapp.service
+2024-01-15 14:32:20 ERROR systemd: webapp.service: Main process exited, code=killed, status=9/KILL
+2024-01-15 14:32:21 ERROR systemd: Failed to start Web Application Service.
