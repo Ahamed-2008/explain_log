@@ -136,10 +136,14 @@ def _analyze_streaming(client: Groq, user_message: str) -> dict:
 
 
 def _parse_response(raw: str) -> dict:
-    cleaned = raw.strip()
-    if cleaned.startswith("```"):
-        lines = cleaned.splitlines()
-        cleaned = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
+    import re
+
+    # Extract JSON only
+    match = re.search(r"\{.*\}", raw, re.DOTALL)
+    if not match:
+        raise ValueError(f"No JSON found in model output:\n{raw}")
+
+    cleaned = match.group(0)
 
     try:
         result = json.loads(cleaned)
@@ -152,8 +156,10 @@ def _parse_response(raw: str) -> dict:
 
     return {
         "diagnosis": result.get("diagnosis", "Could not determine root cause."),
-        "fixes":     result.get("fixes", []),
-        "severity":  result.get("severity", "warn") if result.get("severity") in ("critical", "warn", "info") else "warn",
+        "fixes": result.get("fixes", []),
+        "severity": result.get("severity", "warn")
+        if result.get("severity") in ("critical", "warn", "info")
+        else "warn",
     }
 
 
