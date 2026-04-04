@@ -64,7 +64,9 @@ def main():
     except ValueError as e:
         _die(f"Failed to parse model response:\n{e}")
 
-    # ── output ────────────────────────────────────────────────────────────────
+    # ── output ────────────────────────────────────────────────────────────────────
+    from explain_log.formatter import render
+
     fmt = args.format.lower()
 
     if fmt == "json":
@@ -72,19 +74,15 @@ def main():
         print(json.dumps(result, indent=2))
 
     elif fmt == "markdown":
-        md = _render_markdown(result, parsed)
         if args.save:
-            _save_file(args.save, md)
+            render(result, fmt="markdown", save_path=args.save)
         else:
-            print(md)
+            render(result, fmt="markdown", save_path="report.md")
 
     else:  # terminal (default)
-        if RICH_AVAILABLE:
-            _render_rich(result, parsed)
-        else:
-            _render_plain(result, parsed)
+        render(result, fmt="terminal")
         if args.save:
-            _save_file(args.save, _render_markdown(result, parsed))
+            render(result, fmt="markdown", save_path=args.save)
             console.print(f"[dim]  saved →[/dim] {args.save}")
 
 

@@ -1,6 +1,7 @@
 import os
 import json
 import sys
+import re
 
 try:
     from groq import Groq
@@ -136,8 +137,6 @@ def _analyze_streaming(client: Groq, user_message: str) -> dict:
 
 
 def _parse_response(raw: str) -> dict:
-    import re
-
     # Extract JSON only
     match = re.search(r"\{.*\}", raw, re.DOTALL)
     if not match:

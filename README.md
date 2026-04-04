@@ -23,7 +23,7 @@ venv\Scripts\activate
 pip install -e .
 ```
 
-### 4. Set your Anthropic API key
+### 4. Set your Groq API key
 ```bash
 set GROQ_API_KEY=your_api_key_here
 ```
@@ -76,4 +76,4 @@ explain_log/
 ## Requirements
 
 - Python 3.13+
-- Anthropic API key
+- Groq API key
