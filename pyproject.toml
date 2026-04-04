@@ -1,20 +1,16 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
-
 [project]
 name = "explain-log"
 version = "0.1.0"
 description = "A CLI tool that explains system logs using AI"
 requires-python = ">=3.13"
 dependencies = [
-    "groq",
-    "rich",
-
+    "groq>=0.5",
+    "rich>=13",
 ]
-
 [project.scripts]
 explain-log = "explain_log.cli:main"
-
 [tool.setuptools.packages.find]
 where = ["."]
