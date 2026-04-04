@@ -8,8 +8,9 @@ version = "0.1.0"
 description = "A CLI tool that explains system logs using AI"
 requires-python = ">=3.13"
 dependencies = [
-    "anthropic",
+    "groq",
     "rich",
+
 ]
 
 [project.scripts]
