@@ -25,7 +25,7 @@ pip install -e .
 
 ### 4. Set your Anthropic API key
 ```bash
-set ANTHROPIC_API_KEY=your_api_key_here
+set GROQ_API_KEY=your_api_key_here
 ```
 
 ---
