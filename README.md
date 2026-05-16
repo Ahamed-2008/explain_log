@@ -10,7 +10,6 @@ A CLI tool that takes system or application logs as input and outputs a clear di
 ```bash
 git clone https://github.com/Ahamed-2008/explain-log.git
 cd explain-log
-cd explain_log
 ```
 
 ### 2. Create a virtual environment
@@ -32,40 +31,48 @@ venv\Scripts\activate
 pip install -e .
 ```
 
-### 4. Set your Groq API key
+### 4. First-time setup
+
+Run explain-log once (or use `--change-api`). An interactive wizard asks you to choose a provider:
+
+1. OpenAI
+2. Ollama (local)
+3. Anthropic
+4. Gemini
+5. Groq
+
+Settings are saved to:
+
+- **Linux / macOS:** `~/.config/explain-log/config.json`
+- **Windows:** `%APPDATA%\explain-log\config.json`
+
+### 5. Set your API key
+
+API keys are read from environment variables only (never stored on disk).
+
+| Provider | Environment variable |
+|----------|---------------------|
+| OpenAI | `OPENAI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Gemini | `GEMINI_API_KEY` |
+| Groq | `GROQ_API_KEY` |
+| Ollama | none (optional: `OLLAMA_BASE_URL`) |
 
 **Linux / macOS**
 ```bash
-export GROQ_API_KEY=your_api_key_here
-```
-
-**Windows (Command Prompt)**
-```bash
-set GROQ_API_KEY=your_api_key_here
+export OPENAI_API_KEY=your_key_here
 ```
 
 **Windows (PowerShell)**
 ```powershell
-$env:GROQ_API_KEY="your_api_key_here"
+$env:OPENAI_API_KEY="your_key_here"
 ```
 
-Get a free key at: https://console.groq.com/keys
+### 6. Change provider later
 
-### 5. Set LLM
-**Linux / macOS**
 ```bash
-export EXPLAIN_LOG_MODEL=your_model
+explain-log --change-api
 ```
-**Windows (Command Prompt)**
-```bash
-set EXPLAIN_LOG_MODEL=yout_model
-```
-**Windows (PowerShell)**
-```powershell
-$env:EXPLAIN_LOG_MODEL="your_model"
-```
-
-The Default Model is llama-3.3-70b-versatile
 
 ---
 
@@ -119,19 +126,19 @@ explain-log --file app.log --format json
 - Reads logs from a file or stdin
 - Auto-detects log type (nginx, systemd, python, kernel, docker, postgres, apache, ssh)
 - Filters out noise and focuses on ERROR and WARN lines
-- Sends logs to Groq AI (llama-3.3-70b-versatile) for diagnosis
+- Supports OpenAI, Anthropic, Gemini, Groq, and local Ollama
 - Outputs a clear summary and actionable fixes in the terminal
 - Supports terminal, JSON, and markdown output formats
 
 ---
 
 ## Project Structure
+```
 explain-log/
-.
 ├── explain_log/
-│   ├── __init__.py
 │   ├── ai.py
 │   ├── cli.py
+│   ├── config.py
 │   ├── formatter.py
 │   └── parser.py
 ├── samples/
@@ -139,10 +146,11 @@ explain-log/
 │   ├── python_error.log
 │   └── system_error.log
 └── pyproject.toml
+```
 
 ---
 
 ## Requirements
 
 - Python 3.13+
-- Groq API key (free at https://console.groq.com/keys)
+- API key for your chosen cloud provider, or a running [Ollama](https://ollama.com) instance for local use

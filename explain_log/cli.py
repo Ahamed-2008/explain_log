@@ -4,6 +4,7 @@ import os
 
 from explain_log.parser import preprocess, EmptyLogError
 from explain_log.ai     import analyze, APIError, RateLimitError
+from explain_log.config import load_config, run_setup_wizard, ensure_api_key
 
 try:
     from rich.console import Console
@@ -21,6 +22,17 @@ console = Console(stderr=True)   # progress/errors → stderr, clean stdout for 
 
 def main():
     args = _build_parser().parse_args()
+
+    # ── provider setup ────────────────────────────────────────────────────────
+    if args.change_api:
+        cfg = run_setup_wizard()
+        return
+
+    cfg = load_config()
+    if cfg is None:
+        cfg = run_setup_wizard()
+
+    ensure_api_key(cfg["provider"])
 
     # ── read input ────────────────────────────────────────────────────────────
     try:
@@ -54,7 +66,7 @@ def main():
 
     # ── analyze ───────────────────────────────────────────────────────────────
     try:
-        result = analyze(parsed, stream=not args.no_stream)
+        result = analyze(parsed, stream=not args.no_stream, config=cfg)
     except EnvironmentError as e:
         _die(str(e))
     except RateLimitError as e:
@@ -98,7 +110,8 @@ def _build_parser() -> argparse.ArgumentParser:
             "  explain-log --file nginx.log\n"
             "  journalctl -n 200 | explain-log --last 50\n"
             "  explain-log --file app.log --format json | jq\n"
-            "  explain-log --file crash.log --save report.md"
+            "  explain-log --file crash.log --save report.md\n"
+            "  explain-log --change-api"
         ),
         formatter_class = argparse.RawDescriptionHelpFormatter,
     )
@@ -148,6 +161,11 @@ def _build_parser() -> argparse.ArgumentParser:
         "--quiet", "-q",
         action  = "store_true",
         help    = "suppress progress output on stderr",
+    )
+    p.add_argument(
+        "--change-api",
+        action  = "store_true",
+        help    = "re-run provider setup (OpenAI, Ollama, Anthropic, Gemini, Groq)",
     )
 
     return p
